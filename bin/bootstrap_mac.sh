@@ -37,7 +37,7 @@ install_homebrew_git() {
 # script
 ################################################
 echo "Checking for HomeBrew..."
-if ! which brew; then
+if ! which brew &> /dev/null; then
   download_homebrew_install_file
   ask_if_user_wants_to_continue
 else
@@ -45,8 +45,16 @@ else
 fi
 
 echo "\nChecking for Git..."
-if ! which git; then
+if ! which git &> /dev/null; then
   install_homebrew_git
 else
   echo "Found Git. Skipping."
+fi
+
+echo "\nChecking for Git myconfig respository"
+local GIT_DIR="${HOME}/.myconfig"
+if ! git -C $GIT_DIR rev-parse --is-bare-repository &> /dev/null; then
+  git clone --bare https://github.com/dawilliams/myconfig.git $HOME/.myconfig
+else
+  echo "Found myconfig Git repository. Skipping."
 fi
