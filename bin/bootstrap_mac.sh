@@ -59,7 +59,7 @@ else
 fi
 
 echo "\nChecking for HomeBrew Bash..."
-if ! brew list bash; then
+if ! brew list bash &> /dev/null; then
   install_homebrew_bash
   set_default_shell
 else
