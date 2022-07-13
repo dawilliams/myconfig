@@ -54,7 +54,7 @@ fi
 echo "\nChecking for Git myconfig respository"
 local GIT_DIR="${HOME}/.myconfig"
 if ! git -C $GIT_DIR rev-parse --is-bare-repository &> /dev/null; then
-  git clone --bare https://github.com/dawilliams/myconfig.git $HOME/.myconfig
+  git clone --bare https://github.com/dawilliams/myconfig.git $HOME/.mycfg
 else
   echo "Found myconfig Git repository. Skipping."
 fi
