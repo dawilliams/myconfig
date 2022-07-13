@@ -28,6 +28,20 @@ ask_if_user_wants_to_continue() {
   esac
 }
 
+install_homebrew_bash() {
+  echo "Installing Bash with HomeBrew"
+  brew install bash
+}
+
+set_default_shell() {
+  echo "\nUpdating /etc/shells..."
+  sudo tee -a /etc/shells > /dev/null << EOF
+/usr/local/bin/bash
+EOF
+  echo "Setting default shell to HomeBrew Bash."
+  chsh -s /usr/local/bin/bash
+}
+
 install_homebrew_git() {
   echo "Installing Git with HomeBrew..."
   brew install git
@@ -42,6 +56,14 @@ if ! which brew &> /dev/null; then
   ask_if_user_wants_to_continue
 else
   echo "Found Homebrew. Skipping."
+fi
+
+echo "\nChecking for HomeBrew Bash..."
+if ! brew list bash; then
+  install_homebrew_bash
+  set_default_shell
+else
+  echo "Found Homebrew Bash. Skipping."
 fi
 
 echo "\nChecking for Git..."
