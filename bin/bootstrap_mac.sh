@@ -80,3 +80,7 @@ if ! git -C $GIT_DIR rev-parse --is-bare-repository &> /dev/null; then
 else
   echo "Found myconfig Git repository. Skipping."
 fi
+
+
+echo "\nChecking out Git myconfig respository"
+git  --git-dir=$HOME/.mycfg/ --work-tree=$HOME checkout
