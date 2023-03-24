@@ -12,13 +12,13 @@ download_homebrew_install_file() {
 }
 
 ask_if_user_wants_to_continue() {
-  echo "Would you like to exit and review the HomeBrew script? (y,n,yes,no) "
+  echo "Would you like to review the HomeBrew script before continuing? Answering yes will exit the script. (y,n,yes,no) "
   read -r read_script
   case ${read_script} in
     n | N | No | no)
       echo "Continuing script..."
       chmod u+x "$homebrew_install_file"
-      "$homebrew_install_file"
+      "NONINTERACTIVE=1 $homebrew_install_file"
     ;;
     *)
       echo "Exiting script. Rerun script when you are ready to continue."
@@ -33,13 +33,18 @@ install_homebrew_bash() {
   brew install bash
 }
 
+install_homebrew_zsh() {
+  echo "Installing zsh with HomeBrew"
+  brew install zsh 
+}
+
 set_default_shell() {
-  echo "\nUpdating /etc/shells..."
-  sudo tee -a /etc/shells > /dev/null << EOF
-/usr/local/bin/bash
-EOF
-  echo "Setting default shell to HomeBrew Bash."
-  chsh -s /usr/local/bin/bash
+  #echo "\nUpdating /etc/shells..."
+  #sudo tee -a /etc/shells > /dev/null << EOF
+#/usr/local/bin/bash
+#EOF
+  echo "Setting default shell to HomeBrew zsh."
+  chsh -s $(which zsh)
 }
 
 install_homebrew_git() {
@@ -58,12 +63,12 @@ else
   echo "Found Homebrew. Skipping."
 fi
 
-echo "\nChecking for HomeBrew Bash..."
-if ! brew list bash &> /dev/null; then
-  install_homebrew_bash
+echo "\nChecking for HomeBrew zsh..."
+if ! brew list zsh &> /dev/null; then
+  install_homebrew_zsh
   set_default_shell
 else
-  echo "Found Homebrew Bash. Skipping."
+  echo "Found Homebrew zsh. Skipping."
 fi
 
 echo "\nChecking for Git..."
